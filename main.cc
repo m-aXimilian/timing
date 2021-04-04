@@ -2,6 +2,7 @@
 #include <time_table.h>
 
 #include <cstdlib>
+#include <iostream>
 #include <memory>
 
 int main(int argc, char *argv[]){
@@ -11,4 +12,11 @@ int main(int argc, char *argv[]){
     std::shared_ptr<ti::TimeTable> time_obj {std::make_shared<ti::TimeTable>(act)};
 
     std::shared_ptr<data::Database> database {std::make_shared<data::Database>("./config/project_config.toml")};
+
+    int db {database->ConnectDatabase()};
+
+    std::cerr<<database->NewDatabaseTable()<<std::endl;
+    
+    if(db == 0) database->CloseDatabase();
+
 }
