@@ -1,0 +1,5 @@
+title = "gerneral config file"
+
+[database]
+name = "work_times_MK.db"
+path = "../database"
