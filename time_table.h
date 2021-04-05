@@ -22,7 +22,7 @@ namespace ti
     private:
         int my_int;
         std::time_t current_time_raw_;
-        struct tm * ptm;
+        struct tm *ptm;
         std::time_t get_time();
     };
 } // namespace ti

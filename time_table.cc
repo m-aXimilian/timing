@@ -19,7 +19,8 @@ ti::TimeTable::TimeTable(ti::action &action){
     "corresponding UTC:\t"<<std::put_time(std::gmtime(&this->current_time_raw_), "%c %Z")<<std::endl<<
     "and local:\t\t"<<std::put_time(std::localtime(&this->current_time_raw_), "%c %Z")<<std::endl<<
     "the day:\t\t"<<ptm->tm_yday<<std::endl<<
-    "and year:\t\t"<<ptm->tm_year+1900<<std::endl;
+    "and year:\t\t"<<ptm->tm_year+1900<<std::endl<<
+    "table formatted:\t"<<ptm->tm_year+1900<<"-"<<ptm->tm_mon+1<<"-"<<ptm->tm_mday<<std::endl;
     
 }
 

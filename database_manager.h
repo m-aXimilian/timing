@@ -5,6 +5,7 @@
 #include <toml/include/cpptoml.h>
 
 #include <string>
+#include <vector>
 
 namespace toml = cpptoml;
 
@@ -14,14 +15,14 @@ namespace {
         return const_cast<char*>((conv_string).c_str());
     }
     
-    static int callback(void *NotUsed, int argc, char **argv, char **azColName){
+    /*static int callback(void *NotUsed, int argc, char **argv, char **azColName){
         int i;
         for(i = 0; i<argc; i++) {
             printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
         }
         printf("\n");
         return 0;
-    }   
+    }   */
 }
 
 namespace data{
@@ -46,13 +47,23 @@ namespace data{
 
         data_result NewDatabaseTable();
 
+        std::vector<std::string> QueryTable(std::string&);
+
+        int NewEntry(std::vector<std::string>&, std::vector<std::string>&);
+
         std::string config_file_;
         sqlite3 *db_descriptor_;
+        std::shared_ptr<toml::table> table_columns_;
 
         std::string create_command_;
+
+        int db_status_;
+
     private:
         std::string database_name_;
         std::string database_directory_;
+        std::string table_name_;
+        int n_cols_;
     };
 }
 
