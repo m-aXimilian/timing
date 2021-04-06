@@ -124,4 +124,4 @@ int data::Database::NewEntry(std::vector<std::string> &fields, \
     int insertion_status{sqlite3_exec(db_descriptor_, tmp, NULL, 0, &sqlerr)};
 
     return insertion_status;
- }
+}
