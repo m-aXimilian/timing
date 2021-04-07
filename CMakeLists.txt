@@ -14,13 +14,13 @@ add_subdirectory(${PROJECT_SOURCE_DIR}/toml)
 configure_file(${PROJECT_SOURCE_DIR}/config/project_config.toml
                 config/project_config.toml)
 
-
 # generate the executable
-add_executable(${PROJECT_NAME}  ${PROJECT_SOURCE_DIR}/main.cc
-                                ${PROJECT_SOURCE_DIR}/time_table.cc
-                                ${PROJECT_SOURCE_DIR}/database_manager.cc)
+add_executable(${PROJECT_NAME}  ${PROJECT_SOURCE_DIR}/src/main.cc
+                                ${PROJECT_SOURCE_DIR}/src/time_table.cc
+                                ${PROJECT_SOURCE_DIR}/src/database_manager.cc)
 
 target_include_directories(${PROJECT_NAME}  PUBLIC ${PROJECT_SOURCE_DIR}
+                                            PUBLIC ${PROJECT_SOURCE_DIR}/src
                                             PUBLIC ${PROJECT_SOURCE_DIR}/sqlite3
                                             PUBLIC ${PROJECT_SOURCE_DIR}/toml
                                             PUBLIC ${PROJECT_SOURCE_DIR}/toml/include)

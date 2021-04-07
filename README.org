@@ -1,0 +1,3 @@
+* Packages for the image
+- g++
+- sqlite3
