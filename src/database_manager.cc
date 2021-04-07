@@ -88,12 +88,13 @@ std::vector<std::string> data::Database::QueryTable(std::string &query_command){
         while (sqlite3_column_text(stmt,0)){
             for (auto i{0}; i < n_cols_; i++)
                 result.at(i) = std::string((char *)sqlite3_column_text(stmt, i));
+
             sqlite3_step(stmt);
-        }   
+        }
 
     }
 
-    return result;    
+    return result;
 }
 
 
@@ -103,8 +104,8 @@ int data::Database::NewEntry(std::vector<std::string> &fields, \
     std::string insert_command{"INSERT INTO " + table_name_ + " ("};
 
     if( fields.size() != values.size() ||
-        fields.size() != (size_t) n_cols_ ||
-        values.size() != (size_t) n_cols_ )
+        fields.size() > (size_t) n_cols_ ||
+        values.size() > (size_t) n_cols_ )
         return data::data_result::FAIL;
     
     for(std::vector<std::string>::iterator it = fields.begin(); it != fields.end(); it++){
