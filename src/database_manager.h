@@ -27,6 +27,12 @@ namespace {
 
 namespace data{
     
+    struct linked_list{
+        std::string data;
+        linked_list *next{nullptr};
+    };
+
+
     enum data_result{
         SUCCESS,
         FAIL,
@@ -37,6 +43,7 @@ namespace data{
     {
     public:
         Database(std::string);
+        
         virtual ~Database(){};
         
         int ConnectDatabase();
@@ -49,25 +56,32 @@ namespace data{
 
         std::vector< std::vector<std::string> > QueryTable(std::string&);
 
-        std::vector<std::string> QueryCallback(void *NotUsed, int argc, char **argv, char **azColName);
+        static int QueryCallback(void *output, int count, char **row_data, char **column_name);
 
         int NewEntry(std::vector<std::string>&, std::vector<std::string>&);
 
         std::string config_file_;
+
         sqlite3 *db_descriptor_;
+        
         std::shared_ptr<toml::table> table_columns_;
 
         std::string create_command_;
+        
         std::string table_name_;
 
-        std::vector<std::string> query_result_;
+        void *query_result_;
 
         int db_status_;
 
     private:
         std::string database_name_;
+        
         std::string database_directory_;
+        
         int n_cols_;
+
+        std::vector<std::string> query_retainer_;
     };
 }
 
