@@ -41,11 +41,10 @@ int main(int argc, char *argv[]){
 
     std::cout<<q<<std::endl;
 
-    std::vector< std::vector<std::string> > query{database->QueryTable(q)};
+    int query{database->SelectFromTable(q)};
 
-    std::cout<<"query dim:\t"<<query.size()<<
-    "query_ dim:\t"<<query.at(0).size()<<std::endl;
-
+    
+    
     /*
     for(auto &element: query) 
         std::cout<<element.at(0)<<std::endl;

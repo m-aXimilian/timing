@@ -109,8 +109,21 @@ std::vector< std::vector<std::string> > data::Database::QueryTable(std::string &
 }
 */
 
-int data::Database::SelectFromTable(std::string&){
+int data::Database::SelectFromTable(std::string &query_command){
     // todo: include data::Database::QueryCallback. pass query_result_ as 4th argument to sqlite3_exec and obtain the Query result in the respective vector
+    std::string tmp{query_command.back()};
+
+    std::string term{";"};
+
+    if (tmp.compare(term) != 0) return -1;
+
+    void *tmp_res = (void*) query_result_;
+
+    char *sqlerr{0};
+    char *tmp_command{string_to_char(query_command)};
+    
+    sqlite3_exec(db_descriptor_, tmp_command, data::Database::QueryCallback, tmp_res, &sqlerr);
+
     return 0;
 }
 
