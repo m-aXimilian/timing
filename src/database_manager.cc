@@ -84,7 +84,7 @@ data::data_result data::Database::NewDatabaseTable(){
     return (e==0) ? data::data_result::SUCCESS : data::data_result::FAIL;
 }
 
-
+/*
 std::vector< std::vector<std::string> > data::Database::QueryTable(std::string &query_command){
     // char *query = string_to_char(query_command);
     std::vector< std::vector<std::string> > result(n_cols_, std::vector<std::string>());
@@ -107,17 +107,24 @@ std::vector< std::vector<std::string> > data::Database::QueryTable(std::string &
 
     return result;
 }
+*/
 
-/*
-int data::Database::QueryCallback(void *output, int count, char **row_data, char **column_name){
+int data::Database::SelectFromTable(std::string&){
+    // todo: include data::Database::QueryCallback. pass query_result_ as 4th argument to sqlite3_exec and obtain the Query result in the respective vector
+    return 0;
+}
+
+int data::Database::QueryCallback(void *exec_relay, int count, char **row_data, char **column_name){
+    
+    std::vector<std::string> *res = (std::vector<std::string>*) exec_relay;
 
     for (int i = 0; i < count; i++){
-
+        res->push_back(row_data[i]);
     }
     
     return 0;
 } 
-*/
+
 
 /*
 std::vector<std::string> QueryCallback(void *NotUsed, int argc, char **argv, char **azColName){

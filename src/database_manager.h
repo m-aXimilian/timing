@@ -26,12 +26,6 @@ namespace {
 }
 
 namespace data{
-    
-    struct linked_list{
-        std::string data;
-        linked_list *next{nullptr};
-    };
-
 
     enum data_result{
         SUCCESS,
@@ -54,7 +48,9 @@ namespace data{
 
         data_result NewDatabaseTable();
 
-        std::vector< std::vector<std::string> > QueryTable(std::string&);
+        // std::vector< std::vector<std::string> > QueryTable(std::string&);
+
+        int SelectFromTable(std::string&);
 
         static int QueryCallback(void *output, int count, char **row_data, char **column_name);
 
@@ -70,7 +66,7 @@ namespace data{
         
         std::string table_name_;
 
-        void *query_result_;
+        std::vector<std::string> *query_result_;
 
         int db_status_;
 
