@@ -47,7 +47,9 @@ namespace data{
 
         data_result NewDatabaseTable();
 
-        std::vector<std::string> QueryTable(std::string&);
+        std::vector< std::vector<std::string> > QueryTable(std::string&);
+
+        std::vector<std::string> QueryCallback(void *NotUsed, int argc, char **argv, char **azColName);
 
         int NewEntry(std::vector<std::string>&, std::vector<std::string>&);
 
@@ -56,13 +58,15 @@ namespace data{
         std::shared_ptr<toml::table> table_columns_;
 
         std::string create_command_;
+        std::string table_name_;
+
+        std::vector<std::string> query_result_;
 
         int db_status_;
 
     private:
         std::string database_name_;
         std::string database_directory_;
-        std::string table_name_;
         int n_cols_;
     };
 }

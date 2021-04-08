@@ -75,9 +75,9 @@ data::data_result data::Database::NewDatabaseTable(){
 }
 
 
-std::vector<std::string> data::Database::QueryTable(std::string &query_command){
+std::vector< std::vector<std::string> > data::Database::QueryTable(std::string &query_command){
     // char *query = string_to_char(query_command);
-    std::vector<std::string> result(n_cols_,"");
+    std::vector< std::vector<std::string> > result(n_cols_, std::vector<std::string>());
 
     sqlite3_stmt *stmt;
 
@@ -87,7 +87,7 @@ std::vector<std::string> data::Database::QueryTable(std::string &query_command){
 
         while (sqlite3_column_text(stmt,0)){
             for (auto i{0}; i < n_cols_; i++)
-                result.at(i) = std::string((char *)sqlite3_column_text(stmt, i));
+                result.at(i).push_back(std::string((char *)sqlite3_column_text(stmt, i)));
 
             sqlite3_step(stmt);
         }
@@ -98,8 +98,24 @@ std::vector<std::string> data::Database::QueryTable(std::string &query_command){
 }
 
 
+std::vector<std::string> QueryCallback(void *NotUsed, int argc, char **argv, char **azColName){
+    
+    std::vector<std::string> result;
+    
+    std::string tmp;
+
+    for(int i = 0; i < argc; i++) {
+        
+        tmp = (std::string) azColName[i] + (std::string) argv[i];
+        std::cout << azColName[i] << ": " << argv[i] << std::endl;
+    
+    }
+}
+
+
 int data::Database::NewEntry(std::vector<std::string> &fields, \
         std::vector<std::string> &values){
+
 
     std::string insert_command{"INSERT INTO " + table_name_ + " ("};
 
