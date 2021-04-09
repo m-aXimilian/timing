@@ -109,7 +109,16 @@ int tlog::TimeLog::LogOut(){
     size_t query_size{db_descriptor_->query_result_->size()};
 
     if( query_size < 2 ||
-        last_action_ == tlog::action::LOG_OUT) return -1; 
+        last_action_ == tlog::action::LOG_OUT) return -1;
+    
+    if( query_size < 3 ){
+        std::vector<std::string> fields{*db_descriptor_->table_columns_->get_as<std::string>("column_fourth")};
+        
+        std::vector<std::string> values{std::string("0")};
+
+        db_descriptor_->UpdateTable(fields, values, std::string("date='")
+            .append(time_table_->date_raw_time().first).append("\'"));
+    }
     
     std::vector<std::string> fields{*db_descriptor_->table_columns_->get_as<std::string>("column_third")};
 

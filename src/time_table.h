@@ -31,10 +31,8 @@ namespace ti
         }
 
         inline std::time_t StringToTime(const std::string &string_time){
-            
-            if (string_time.size() != 10) return -1;
-
             std::string::size_type sz;
+            
             return (std::time_t) std::stol(string_time,&sz);
         }
         
