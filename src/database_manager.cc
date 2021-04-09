@@ -158,3 +158,14 @@ int data::Database::NewEntry(std::vector<std::string> &fields, \
 
     return insertion_status;
 }
+
+std::string data::Database::GetSelectCommand(const std::string &select
+    , const std::string &condition){
+    
+    std::string ret{std::string("SELECT ").append(select).append(" FROM ").append(table_name_)};
+
+    if(condition.empty())
+        return ret.append(";");
+
+    return ret.append(" WHERE ").append(condition).append(";");
+}

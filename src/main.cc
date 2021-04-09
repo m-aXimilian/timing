@@ -37,13 +37,14 @@ int main(int argc, char *argv[]){
 
     std::cout<<"new entry:\t"<<database->NewEntry(fields, values)<<std::endl;
 
-    std::string q{"SELECT * FROM " + database->table_name_ + ";"};
+    std::string condition{"date='2021-4-5'"};
+    std::string q{database->GetSelectCommand("*",condition)};
 
     std::cout<<q<<std::endl;
+    
+    database->SelectFromTable(q);
 
-    int query{database->SelectFromTable(q)};
-
-    for(auto i{0}; i < database->query_result_->size(); i++) 
+    for(auto i{0}; i < (int) database->query_result_->size(); i++) 
         std::cout<<database->query_result_->at(i);
     std::cout<<std::endl;
     

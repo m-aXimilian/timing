@@ -48,13 +48,13 @@ namespace data{
 
         data_result NewDatabaseTable();
 
-        // std::vector< std::vector<std::string> > QueryTable(std::string&);
-
         int SelectFromTable(std::string&);
 
         static int QueryCallback(void *output, int count, char **row_data, char **column_name);
 
         int NewEntry(std::vector<std::string>&, std::vector<std::string>&);
+
+        std::string GetSelectCommand(const std::string&, const std::string&);
 
         std::string config_file_;
 
