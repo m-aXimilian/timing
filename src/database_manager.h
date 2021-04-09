@@ -9,20 +9,14 @@
 
 namespace toml = cpptoml;
 
+
 namespace {
     
     inline char* string_to_char(std::string& conv_string){
+        
         return const_cast<char*>((conv_string).c_str());
     }
-    
-    /*static int callback(void *NotUsed, int argc, char **argv, char **azColName){
-        int i;
-        for(i = 0; i<argc; i++) {
-            printf("%s = %s\n", azColName[i], argv[i] ? argv[i] : "NULL");
-        }
-        printf("\n");
-        return 0;
-    }   */
+
 }
 
 namespace data{
@@ -53,6 +47,8 @@ namespace data{
         static int QueryCallback(void *output, int count, char **row_data, char **column_name);
 
         int NewEntry(std::vector<std::string>&, std::vector<std::string>&);
+
+        int UpdateTable(std::vector<std::string>&, std::vector<std::string>&, const std::string&);
 
         std::string GetSelectCommand(const std::string&, const std::string&);
 

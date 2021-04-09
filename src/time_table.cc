@@ -1,12 +1,7 @@
 /*
 ToDos:
-database:
-        | day x | day x+1 | ...
-start   |       |         | ...
-end     |       |         | ...
-break   |       |         | ...
 [ ] write back to database
-[ ] log out must be after log in
+[ ] log out must be after log in -> separate file
 [ ] multiple login/logouts add up to the break field
 [ ] work time computes as end-start-break
 [ ] day and year comparison of the time flags
@@ -14,18 +9,22 @@ break   |       |         | ...
 
 #include <time_table.h>
 
-ti::TimeTable::TimeTable(ti::action &action){
-    std::cout<<"TimeTable was called with "<<action<<" at "<<this->get_time()<<std::endl<<
-    "corresponding UTC:\t"<<std::put_time(std::gmtime(&this->current_time_raw_), "%c %Z")<<std::endl<<
-    "and local:\t\t"<<std::put_time(std::localtime(&this->current_time_raw_), "%c %Z")<<std::endl<<
-    "the day:\t\t"<<ptm->tm_yday<<std::endl<<
-    "and year:\t\t"<<ptm->tm_year+1900<<std::endl<<
-    "table formatted:\t"<<ptm->tm_year+1900<<"-"<<ptm->tm_mon+1<<"-"<<ptm->tm_mday<<std::endl;
-    
+ti::TimeTable::TimeTable(){
+    GetCurrentTime();
+
 }
 
-std::time_t ti::TimeTable::get_time(){
+std::time_t ti::TimeTable::GetCurrentTime(){
+    
     current_time_raw_ = std::time(nullptr);
-    ptm = gmtime(&current_time_raw_);
+    
+    current_time_tm_ = gmtime(&current_time_raw_);
+
+    date_raw_time_.first = std::to_string(current_time_tm_->tm_year+1900).append("-")
+        .append(std::to_string(current_time_tm_->tm_mon+1)).append("-")
+        .append(std::to_string(current_time_tm_->tm_mday));
+    
+    date_raw_time_.second = std::to_string(current_time_raw_);
+    
     return current_time_raw_;
 }

@@ -10,6 +10,7 @@
 
 namespace toml = cpptoml;
 
+
 data::Database::Database(std::string config_file){
 
     config_file_ = config_file; // save given string
@@ -86,7 +87,7 @@ data::data_result data::Database::NewDatabaseTable(){
 
 
 int data::Database::SelectFromTable(std::string &query_command){
-    // todo: include data::Database::QueryCallback. pass query_result_ as 4th argument to sqlite3_exec and obtain the Query result in the respective vector
+    
     std::string tmp{query_command.back()};
 
     std::string term{";"};
@@ -104,6 +105,7 @@ int data::Database::SelectFromTable(std::string &query_command){
 
     return 0;
 }
+
 
 int data::Database::QueryCallback(void *exec_relay, int count, char **row_data, char **column_name){
     
@@ -125,7 +127,7 @@ int data::Database::QueryCallback(void *exec_relay, int count, char **row_data, 
 } 
 
 
-int data::Database::NewEntry(std::vector<std::string> &fields, \
+int data::Database::NewEntry(std::vector<std::string> &fields, 
         std::vector<std::string> &values){
 
     std::string insert_command{"INSERT INTO " + table_name_ + " ("};
@@ -134,7 +136,7 @@ int data::Database::NewEntry(std::vector<std::string> &fields, \
         fields.size() > (size_t) n_cols_ ||
         values.size() > (size_t) n_cols_ )
 
-        return data::data_result::FAIL;
+        return -1;
     
     for(std::vector<std::string>::iterator it = fields.begin(); it != fields.end(); it++){
         insert_command.append("\'").append(*it).append("\',");
@@ -159,8 +161,40 @@ int data::Database::NewEntry(std::vector<std::string> &fields, \
     return insertion_status;
 }
 
-std::string data::Database::GetSelectCommand(const std::string &select
-    , const std::string &condition){
+
+int data::Database::UpdateTable(std::vector<std::string> &fields, 
+        std::vector<std::string> &values,
+        const std::string &condition){
+
+    if( fields.size() != values.size() ||
+        fields.size() > (size_t) n_cols_ ||
+        values.size() > (size_t) n_cols_  ||
+        condition.empty()) return -1;
+
+    std::string update_command{"UPDATE " + table_name_ + " SET "};
+
+    
+    for(size_t i = 0; i < fields.size(); i++){
+        update_command.append(fields.at(i))
+            .append("=")
+            .append("\'")
+            .append(values.at(i))
+            .append("\', ");
+    } 
+    
+    update_command.erase(update_command.end()-2, update_command.end());
+    update_command.append(" WHERE ").append(condition).append(";");
+    
+    char *tmp{string_to_char(update_command)};
+
+    char *sqlerr{0};
+
+    return sqlite3_exec(db_descriptor_, tmp, NULL, 0, &sqlerr);
+}
+
+
+std::string data::Database::GetSelectCommand(const std::string &select,
+        const std::string &condition){
     
     std::string ret{std::string("SELECT ").append(select).append(" FROM ").append(table_name_)};
 

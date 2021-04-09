@@ -16,6 +16,7 @@ configure_file(${PROJECT_SOURCE_DIR}/config/project_config.toml
 
 # generate the executable
 add_executable(${PROJECT_NAME}  ${PROJECT_SOURCE_DIR}/src/main.cc
+                                ${PROJECT_SOURCE_DIR}/src/time_log.cc
                                 ${PROJECT_SOURCE_DIR}/src/time_table.cc
                                 ${PROJECT_SOURCE_DIR}/src/database_manager.cc)
 
