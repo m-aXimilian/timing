@@ -84,30 +84,6 @@ data::data_result data::Database::NewDatabaseTable(){
     return (e==0) ? data::data_result::SUCCESS : data::data_result::FAIL;
 }
 
-/*
-std::vector< std::vector<std::string> > data::Database::QueryTable(std::string &query_command){
-    // char *query = string_to_char(query_command);
-    std::vector< std::vector<std::string> > result(n_cols_, std::vector<std::string>());
-
-    sqlite3_stmt *stmt;
-
-    if (db_status_ == SQLITE_OK){
-        
-        sqlite3_prepare(db_descriptor_, string_to_char(query_command), -1, &stmt, NULL);
-
-        while (sqlite3_column_text(stmt,0)){
-            
-            for (auto i{0}; i < n_cols_; i++)
-                result.at(i).push_back(std::string((char *)sqlite3_column_text(stmt, i)));
-
-            sqlite3_step(stmt);
-        }
-
-    }
-
-    return result;
-}
-*/
 
 int data::Database::SelectFromTable(std::string &query_command){
     // todo: include data::Database::QueryCallback. pass query_result_ as 4th argument to sqlite3_exec and obtain the Query result in the respective vector
@@ -116,6 +92,8 @@ int data::Database::SelectFromTable(std::string &query_command){
     std::string term{";"};
 
     if (tmp.compare(term) != 0) return -1;
+
+    query_result_->clear();
 
     void *tmp_res = (void*) query_result_;
 
@@ -131,29 +109,21 @@ int data::Database::QueryCallback(void *exec_relay, int count, char **row_data, 
     
     std::vector<std::string> *res = (std::vector<std::string>*) exec_relay;
 
-    for (int i = 0; i < count; i++){
-        res->push_back(row_data[i]);
+    std::vector<std::string> data_conversion;
+
+    int i{0};
+
+    while(row_data[i] != NULL){
+        data_conversion.push_back(row_data[i]);
+        i++;
     }
+
+    for(auto &e: data_conversion)
+        res->push_back(e);
     
     return 0;
 } 
 
-
-/*
-std::vector<std::string> QueryCallback(void *NotUsed, int argc, char **argv, char **azColName){
-    
-    std::vector<std::string> result;
-    
-    std::string tmp;
-
-    for(int i = 0; i < argc; i++) {
-        
-        tmp = (std::string) azColName[i] + (std::string) argv[i];
-        std::cout << azColName[i] << ": " << argv[i] << std::endl;
-    
-    }
-}
-*/
 
 int data::Database::NewEntry(std::vector<std::string> &fields, \
         std::vector<std::string> &values){

@@ -43,7 +43,9 @@ int main(int argc, char *argv[]){
 
     int query{database->SelectFromTable(q)};
 
-    
+    for(auto i{0}; i < database->query_result_->size(); i++) 
+        std::cout<<database->query_result_->at(i);
+    std::cout<<std::endl;
     
     /*
     for(auto &element: query) 
