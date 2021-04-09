@@ -145,5 +145,15 @@ int tlog::TimeLog::UpdatePause( const std::string &current_login,
 
     if ( times.at(0) < times.at(1) ) return -1;
 
-    return 0;
+    std::time_t new_pause{
+        times.at(0) - times.at(1) + times.at(2)
+    };
+    
+    std::vector<std::string> fields{*db_descriptor_->table_columns_->get_as<std::string>("column_fourth")};
+
+    std::vector<std::string> values{std::to_string(new_pause)};
+
+    return db_descriptor_->UpdateTable(fields, values, std::string("date='")
+            .append(time_table_->date_raw_time().first).append("\'"));
+
 }
