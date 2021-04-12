@@ -82,6 +82,8 @@ int tlog::TimeLog::LogOut(){
     
     db_descriptor_->SelectFromTable(tmp);
 
+    std::cout<<db_descriptor_->query_result_->at(0);
+
     size_t query_size{db_descriptor_->query_result_->size()};
 
     std::cout<<"query size: "<<query_size<<std::endl;
