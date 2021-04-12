@@ -16,42 +16,13 @@ tlog::TimeLog::TimeLog( std::shared_ptr<data::Database> db,
 
     time_table_ = time; 
 
-    db->ConnectDatabase();
-    std::cerr<<"new table:\t"<<db->NewDatabaseTable()<<std::endl;
-
-    std::vector<std::string> fields{
-        *db->table_columns_->get_as<std::string>("column_first"),
-        *db->table_columns_->get_as<std::string>("column_second"),
-        *db->table_columns_->get_as<std::string>("column_third"),
-        //*database->table_columns_->get_as<std::string>("column_fourth"),
-        // *database->table_columns_->get_as<std::string>("column_fifth")
-    };
-
-    std::vector<std::string> values{
-        "2021-4-5",
-        "1617977468",
-        "1617977569",
-        //"0",
-        //"0",
-    };
-
-    std::cout<<"new entry:\t"<<db->NewEntry(fields, values)<<std::endl;
-
-    std::string condition{"date='2021-4-5'"};
-    std::string q{db->GetSelectCommand("*",condition)};
-
-    std::cout<<q<<std::endl;
+    db_descriptor_->ConnectDatabase();
     
-    db->SelectFromTable(q);
+}
 
-    for(auto i{0}; i < (int) db->query_result_->size(); i++) 
-        std::cout<<db->query_result_->at(i)<<std::endl;
-    
-    LogIn();
 
-    usleep(10000000);
-
-    LogOut();
+tlog::TimeLog::~TimeLog(){
+    if ( db_descriptor_ ) db_descriptor_->CloseDatabase();
 }
 
 
@@ -65,19 +36,23 @@ int tlog::TimeLog::LogIn(){
     db_descriptor_->SelectFromTable(tmp);
 
     size_t query_size{db_descriptor_->query_result_->size()};
+
+    std::cout<<"query size: "<<query_size<<std::endl;
     
     if (query_size == 2 ||
         last_action_ == tlog::action::LOG_IN) return -1;
     
     if (query_size == 0){
+
         std::vector<std::string> fields{
-            *db_descriptor_->table_columns_->get_as<std::string>("column_first"),
-            *db_descriptor_->table_columns_->get_as<std::string>("column_second"),
+            "date", "login"
+            //*db_descriptor_->table_columns_->get_as<std::string>("column_first"),
+            //*db_descriptor_->table_columns_->get_as<std::string>("column_second")
         };
-        
+
         std::vector<std::string> values{
             time_table_->date_raw_time().first,
-            time_table_->date_raw_time().second,
+            time_table_->date_raw_time().second
         };
 
         db_descriptor_->NewEntry(fields,values);
@@ -93,6 +68,7 @@ int tlog::TimeLog::LogIn(){
 
     last_action_ = tlog::action::LOG_IN;
     
+    
     return 0;
 }
 
@@ -107,6 +83,8 @@ int tlog::TimeLog::LogOut(){
     db_descriptor_->SelectFromTable(tmp);
 
     size_t query_size{db_descriptor_->query_result_->size()};
+
+    std::cout<<"query size: "<<query_size<<std::endl;
 
     if( query_size < 2 ||
         last_action_ == tlog::action::LOG_OUT) return -1;
@@ -129,7 +107,33 @@ int tlog::TimeLog::LogOut(){
 
     last_action_ = tlog::action::LOG_OUT;
 
+    std::time_t last_logout{time_table_->StringToTime(time_table_->date_raw_time().second)};
+    
+    WriteWorkTime(db_descriptor_->query_result_, last_logout);
+
     return 0;
+}
+
+
+int tlog::TimeLog::WriteWorkTime(std::vector<std::string> *query, std::time_t &last_logout){
+
+    if ( query->size() < 3 ) return -1;
+
+    std::vector<std::time_t> times;
+
+    for (std::vector<std::string>::iterator it = query->begin(); it != query->end(); ++it){
+        times.push_back(time_table_->StringToTime(*it));
+    }
+
+    std::vector<std::string> values{std::to_string(last_logout - times.at(1) - times.at(3))};
+  
+    std::vector<std::string> fields{*db_descriptor_->table_columns_->get_as<std::string>("column_fifth")};
+
+    db_descriptor_->UpdateTable(fields, values, std::string("date='")
+            .append(time_table_->date_raw_time().first).append("\'"));
+    
+    return 0;
+    
 }
 
 
