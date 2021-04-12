@@ -26,7 +26,6 @@ data::Database::Database(std::string config_file){
 
     query_result_ = &query_retainer_;
 
-    std::cout<<"name:\t"<<database_name_<<"\ndir:\t"<<database_directory_<<std::endl;
 }
 
 

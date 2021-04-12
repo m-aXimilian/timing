@@ -43,7 +43,8 @@ namespace data{
         int ConnectDatabase();
         
         inline void CloseDatabase(){
-            sqlite3_close(db_descriptor_);
+            if (db_status_ == 0)
+                sqlite3_close(db_descriptor_);
         };
 
         data_result NewDatabaseTable();
