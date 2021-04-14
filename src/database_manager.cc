@@ -40,12 +40,6 @@ int data::Database::ConnectDatabase(){
 
     db_status_ = sqlite3_open(tmp,&db_descriptor_);
 
-    return db_status_;
-}
-
-
-data::data_result data::Database::NewDatabaseTable(){
-
     auto conf{toml::parse_file(config_file_.c_str())};
 
     auto table{conf->get_table("create_table")};
@@ -54,23 +48,31 @@ data::data_result data::Database::NewDatabaseTable(){
 
     table_name_ = *table->get_as<std::string>("table_name");
 
-    std::string cols{*table->get_as<std::string>("number_column")};
+    NewDatabaseTable();
+
+    return db_status_;
+}
+
+
+data::data_result data::Database::NewDatabaseTable(){
+
+    std::string cols{*table_columns_->get_as<std::string>("number_column")};
 
     n_cols_ = std::stoi(cols, nullptr, 0);
 
     auto create_command{
-        *table->get_as<std::string>("create_command") + " " + \
-        *table->get_as<std::string>("table_name") + " (\n" + \
-        *table->get_as<std::string>("column_first") + " " + \
-        *table->get_as<std::string>("column_first_type") + ",\n" + \
-        *table->get_as<std::string>("column_second") + " " + \
-        *table->get_as<std::string>("column_second_type") + ",\n" + \
-        *table->get_as<std::string>("column_third") + " " + \
-        *table->get_as<std::string>("column_third_type") + ",\n" + \
-        *table->get_as<std::string>("column_fourth") + " " + \
-        *table->get_as<std::string>("column_fourth_type") + ",\n" + \
-        *table->get_as<std::string>("column_fifth") + " " + \
-        *table->get_as<std::string>("column_fifth_type") + ");"
+        *table_columns_->get_as<std::string>("create_command") + " " + \
+        *table_columns_->get_as<std::string>("table_name") + " (\n" + \
+        *table_columns_->get_as<std::string>("column_first") + " " + \
+        *table_columns_->get_as<std::string>("column_first_type") + ",\n" + \
+        *table_columns_->get_as<std::string>("column_second") + " " + \
+        *table_columns_->get_as<std::string>("column_second_type") + ",\n" + \
+        *table_columns_->get_as<std::string>("column_third") + " " + \
+        *table_columns_->get_as<std::string>("column_third_type") + ",\n" + \
+        *table_columns_->get_as<std::string>("column_fourth") + " " + \
+        *table_columns_->get_as<std::string>("column_fourth_type") + ",\n" + \
+        *table_columns_->get_as<std::string>("column_fifth") + " " + \
+        *table_columns_->get_as<std::string>("column_fifth_type") + ");"
     };
 
     create_command_ = std::move(create_command);
@@ -94,14 +96,15 @@ int data::Database::SelectFromTable(std::string &query_command){
     if (tmp.compare(term) != 0) return -1;
 
     query_result_->clear();
-
+    
     void *tmp_res = (void*) query_result_;
 
     char *sqlerr{0};
+    
     char *tmp_command{string_to_char(query_command)};
     
     sqlite3_exec(db_descriptor_, tmp_command, data::Database::QueryCallback, tmp_res, &sqlerr);
-
+    
     return 0;
 }
 

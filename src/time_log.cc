@@ -37,7 +37,7 @@ int tlog::TimeLog::LogIn(){
 
     size_t query_size{db_descriptor_->query_result_->size()};
 
-    std::cout<<"query size: "<<query_size<<std::endl;
+    // std::cout<<"query size: "<<query_size<<std::endl;
     
     if (query_size == 2 ||
         last_action_ == tlog::action::LOG_IN) return -1;
@@ -45,9 +45,9 @@ int tlog::TimeLog::LogIn(){
     if (query_size == 0){
 
         std::vector<std::string> fields{
-            "date", "login"
-            //*db_descriptor_->table_columns_->get_as<std::string>("column_first"),
-            //*db_descriptor_->table_columns_->get_as<std::string>("column_second")
+            // "date", "login"
+            *db_descriptor_->table_columns_->get_as<std::string>("column_first"),
+            *db_descriptor_->table_columns_->get_as<std::string>("column_second")
         };
 
         std::vector<std::string> values{
@@ -86,7 +86,7 @@ int tlog::TimeLog::LogOut(){
 
     size_t query_size{db_descriptor_->query_result_->size()};
 
-    std::cout<<"query size: "<<query_size<<std::endl;
+    // std::cout<<"query size: "<<query_size<<std::endl;
 
     if( query_size < 2 ||
         last_action_ == tlog::action::LOG_OUT) return -1;
