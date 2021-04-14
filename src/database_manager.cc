@@ -48,6 +48,10 @@ int data::Database::ConnectDatabase(){
 
     table_name_ = *table->get_as<std::string>("table_name");
 
+    std::string cols{*table_columns_->get_as<std::string>("number_column")};
+
+    n_cols_ = std::stoi(cols, nullptr, 0);
+
     NewDatabaseTable();
 
     return db_status_;
@@ -55,10 +59,6 @@ int data::Database::ConnectDatabase(){
 
 
 data::data_result data::Database::NewDatabaseTable(){
-
-    std::string cols{*table_columns_->get_as<std::string>("number_column")};
-
-    n_cols_ = std::stoi(cols, nullptr, 0);
 
     auto create_command{
         *table_columns_->get_as<std::string>("create_command") + " " + \
@@ -72,7 +72,9 @@ data::data_result data::Database::NewDatabaseTable(){
         *table_columns_->get_as<std::string>("column_fourth") + " " + \
         *table_columns_->get_as<std::string>("column_fourth_type") + ",\n" + \
         *table_columns_->get_as<std::string>("column_fifth") + " " + \
-        *table_columns_->get_as<std::string>("column_fifth_type") + ");"
+        *table_columns_->get_as<std::string>("column_fifth_type") + ",\n" +\
+        *table_columns_->get_as<std::string>("column_sixth") + " " + \
+        *table_columns_->get_as<std::string>("column_sixth_type") + ");"
     };
 
     create_command_ = std::move(create_command);
@@ -121,6 +123,9 @@ int data::Database::QueryCallback(void *exec_relay, int count, char **row_data, 
         data_conversion.push_back(row_data[i]);
         i++;
     }
+
+    if (row_data[5] != NULL)
+        data_conversion.push_back(row_data[5]);
 
     for(auto &e: data_conversion)
         res->push_back(e);
