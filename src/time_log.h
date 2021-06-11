@@ -34,7 +34,6 @@ namespace tlog{
 
         std::shared_ptr<ti::TimeTable> time_table_;
 
-        action last_action_;
     };
     
 } //tlog

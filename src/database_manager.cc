@@ -158,6 +158,8 @@ int data::Database::NewEntry(std::vector<std::string> &fields,
     }
 
     insert_command.replace(insert_command.end()-1,insert_command.end(),")");
+
+    std::cerr<<insert_command<<std::endl;
     
     char *tmp{string_to_char(insert_command)};
 
@@ -172,6 +174,8 @@ int data::Database::NewEntry(std::vector<std::string> &fields,
 int data::Database::UpdateTable(std::vector<std::string> &fields, 
         std::vector<std::string> &values,
         const std::string &condition){
+
+
 
     if( fields.size() != values.size() ||
         fields.size() > (size_t) n_cols_ ||
@@ -192,11 +196,15 @@ int data::Database::UpdateTable(std::vector<std::string> &fields,
     update_command.erase(update_command.end()-2, update_command.end());
     update_command.append(" WHERE ").append(condition).append(";");
     
+    std::cerr<<update_command<<std::endl;    
+  
     char *tmp{string_to_char(update_command)};
 
     char *sqlerr{0};
 
     return sqlite3_exec(db_descriptor_, tmp, NULL, 0, &sqlerr);
+
+    return 0;
 }
 
 

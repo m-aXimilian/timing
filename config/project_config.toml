@@ -19,5 +19,5 @@ column_third_type = "TEXT"
 column_fourth_type = "TEXT"
 column_fifth_type = "TEXT"
 column_sixth_type = "TEXT"
-number_column = "6"
+number_column = "7"
 
