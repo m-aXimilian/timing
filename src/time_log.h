@@ -8,11 +8,6 @@
 
 
 namespace tlog{
-    
-    enum action{
-        LOG_IN,
-        LOG_OUT
-    };
 
     class TimeLog
     {
