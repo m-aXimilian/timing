@@ -65,6 +65,11 @@ int tlog::TimeLog::LogIn(){
         return 0;
     }
 
+    if(db_descriptor_->query_result_->back() != "OUT") {
+        std::cerr<<"you're already logged in"<<std::endl;
+        return -1;
+    };    
+
     UpdatePause(    time_table_->date_raw_time().second, 
                     db_descriptor_->query_result_->at(2),
                     db_descriptor_->query_result_->at(3) );    
@@ -82,7 +87,10 @@ int tlog::TimeLog::LogOut(){
     
     db_descriptor_->SelectFromTable(tmp);
 
-    std::cout<<db_descriptor_->query_result_->at(0)<<std::endl;
+    if(db_descriptor_->query_result_->back() != "IN") {
+        std::cerr<<"you're not logged in"<<std::endl;
+        return -1;
+    };
 
     size_t query_size{db_descriptor_->query_result_->size()};
 

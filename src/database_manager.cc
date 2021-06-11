@@ -195,8 +195,6 @@ int data::Database::UpdateTable(std::vector<std::string> &fields,
     
     update_command.erase(update_command.end()-2, update_command.end());
     update_command.append(" WHERE ").append(condition).append(";");
-    
-    std::cerr<<update_command<<std::endl;    
   
     char *tmp{string_to_char(update_command)};
 
