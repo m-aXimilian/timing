@@ -1,8 +1,6 @@
-#include <database_manager.h>
-#include <time_table.h>
-#include <time_log.h>
+#include <service_init.h>
 
-#include <cstdlib>
+//#include <cstdlib>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -17,18 +15,8 @@ int main(int argc, char *argv[]){
              return -1;
          }
     
-    std::shared_ptr<ti::TimeTable> time_obj {std::make_shared<ti::TimeTable>()};
+    std::shared_ptr<init::Service> service_handler {std::make_shared<init::Service>("./config/project_config.toml")};
 
-    std::shared_ptr<data::Database> database {std::make_shared<data::Database>("./config/project_config.toml")};
-
-    std::shared_ptr<tlog::TimeLog> time_log {std::make_shared<tlog::TimeLog>(database, time_obj)};
-    
-    if ( std::string(argv[1]) == "login" ) {
-        std::cout<<time_log->LogIn()<<std::endl;
-        return 0;
-    }
-
-    std::cout<<time_log->LogOut()<<std::endl;
-    return 0;
+    service_handler->DispatchCommand(argv[1]);
 
 }

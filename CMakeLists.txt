@@ -18,7 +18,8 @@ configure_file(${PROJECT_SOURCE_DIR}/config/project_config.toml
 add_executable(${PROJECT_NAME}  ${PROJECT_SOURCE_DIR}/src/main.cc
                                 ${PROJECT_SOURCE_DIR}/src/time_log.cc
                                 ${PROJECT_SOURCE_DIR}/src/time_table.cc
-                                ${PROJECT_SOURCE_DIR}/src/database_manager.cc)
+                                ${PROJECT_SOURCE_DIR}/src/database_manager.cc
+                                ${PROJECT_SOURCE_DIR}/src/service_init.cc)
 
 target_include_directories(${PROJECT_NAME}  PUBLIC ${PROJECT_SOURCE_DIR}
                                             PUBLIC ${PROJECT_SOURCE_DIR}/src
