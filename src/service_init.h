@@ -17,6 +17,7 @@ class Service{
         virtual ~Service(){};
 
         int DispatchCommand(const std::string&);
+        
     private:
         std::shared_ptr<ti::TimeTable> time_table_;
         std::shared_ptr<tlog::TimeLog> time_log_;

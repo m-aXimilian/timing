@@ -1,10 +1,8 @@
 #include <service_init.h>
 
-//#include <cstdlib>
 #include <iostream>
 #include <memory>
-#include <string>
-#include <vector>
+
 
 int main(int argc, char *argv[]){
 
