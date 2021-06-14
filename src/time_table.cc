@@ -1,17 +1,3 @@
-/*
-ToDos:
-database:
-        | day x | day x+1 | ...
-start   |       |         | ...
-end     |       |         | ...
-break   |       |         | ...
-[ ] write back to database
-[ ] log out must be after log in
-[ ] multiple login/logouts add up to the break field
-[ ] work time computes as end-start-break
-[ ] day and year comparison of the time flags
-*/
-
 #include <time_table.h>
 
 ti::TimeTable::TimeTable(ti::action &action){

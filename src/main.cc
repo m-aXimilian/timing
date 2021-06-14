@@ -8,8 +8,18 @@
 #include <vector>
 
 int main(int argc, char *argv[]){
-<<<<<<< Updated upstream
-    ti::action act = ti::action::LOG_IN;
+
+    init::Service service_handler {init::Service("./config/project_config.toml")};
+
+    Service
+
+    /*
+    if( (argc != 2) ||
+        (std::string(argv[1]) != "login" &&
+         std::string(argv[1]) != "logout")) {
+             std::cout<<"Pass ONE argument: \n \t \"login\" or \n \t \"logout\" \n";
+             return -1;
+         }
     
     // ti::TimeTable time_obj = ti::TimeTable(act);
     std::shared_ptr<ti::TimeTable> time_obj {std::make_shared<ti::TimeTable>(act)};
@@ -64,17 +74,10 @@ int main(int argc, char *argv[]){
         std::cout<<element.at(0)<<std::endl;
     */
 
-<<<<<<< Updated upstream
-    if(db == 0) database->CloseDatabase();
-=======
-    
-    if ( std::string(argv[1]) == "login" ) {
-        std::cout<<time_log->LogIn()<<std::endl;
-        return 0;
-    }
-
     std::cout<<time_log->LogOut()<<std::endl;
+    */
+
+
     return 0;
->>>>>>> Stashed changes
 
 }
