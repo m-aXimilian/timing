@@ -158,8 +158,6 @@ int data::Database::NewEntry(std::vector<std::string> &fields,
     }
 
     insert_command.replace(insert_command.end()-1,insert_command.end(),")");
-
-    std::cerr<<insert_command<<std::endl;
     
     char *tmp{string_to_char(insert_command)};
 

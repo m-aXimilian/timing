@@ -21,3 +21,10 @@ column_fifth_type = "TEXT"
 column_sixth_type = "TEXT"
 number_column = "7"
 
+[arguments]
+first_arguments = [
+    "login",
+    "logout",
+    "change"
+]
+
