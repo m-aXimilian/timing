@@ -47,6 +47,14 @@ class Service{
 };
 
 
+class WebService{
+    public:
+        
+    private:
+
+}
+
+
 
 } // init
 

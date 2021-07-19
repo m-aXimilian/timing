@@ -173,8 +173,6 @@ int data::Database::UpdateTable(std::vector<std::string> &fields,
         std::vector<std::string> &values,
         const std::string &condition){
 
-
-
     if( fields.size() != values.size() ||
         fields.size() > (size_t) n_cols_ ||
         values.size() > (size_t) n_cols_  ||
