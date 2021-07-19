@@ -23,6 +23,8 @@ namespace tlog{
         int UpdatePause(const std::string&, const std::string&, const std::string&);
 
         int WriteWorkTime(std::vector<std::string>*, std::time_t&);
+
+        std::string CurrentStatus();
         
     private:
         std::shared_ptr<data::Database> db_descriptor_;

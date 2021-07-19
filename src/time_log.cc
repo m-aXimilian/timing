@@ -179,3 +179,25 @@ int tlog::TimeLog::UpdatePause( const std::string &current_login,
             .append(time_table_->date_raw_time().first).append("\'"));
 
 }
+
+
+std::string tlog::TimeLog::CurrentStatus(){
+    
+    auto current_time = time_table_->GetCurrentTime();
+
+    std::string tmp{db_descriptor_->GetSelectCommand("*",std::string("date='")
+            .append(time_table_->date_raw_time().first).append("'"))};
+    
+    db_descriptor_->SelectFromTable(tmp);
+
+    std::vector<std::time_t> times;
+
+    for (std::vector<std::string>::iterator it = db_descriptor_->query_result_->begin(); \
+            it != db_descriptor_->query_result_->begin()+5; ++it){
+        times.push_back(time_table_->StringToTime(*it));
+    }
+
+    std::time_t current_work = current_time - times.at(1) - times.at(3);
+
+    return time_table_->FormatSecondsToHHMM(current_work);
+}

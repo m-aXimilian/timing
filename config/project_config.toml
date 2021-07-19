@@ -25,6 +25,7 @@ number_column = "7"
 first_arguments = [
     "login",
     "logout",
-    "change"
+    "change",
+    "status"
 ]
 
