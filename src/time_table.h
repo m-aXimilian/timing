@@ -39,6 +39,11 @@ namespace ti
         std::string FormatTimeToHHMM(std::time_t &intime, int GMT = 0);
 
         std::string FormatSecondsToHHMM(std::time_t &intime);
+
+        template <typename T>
+        static inline std::string LeadingZeros(T& intime){
+            return (intime > 9) ? "" : "0";
+        }
         
     private:        
         std::time_t current_time_raw_;

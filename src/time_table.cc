@@ -1,12 +1,3 @@
-/*
-ToDos:
-[ ] write back to database
-[ ] log out must be after log in -> separate file
-[ ] multiple login/logouts add up to the break field
-[ ] work time computes as end-start-break
-[ ] day and year comparison of the time flags
-*/
-
 #include <time_table.h>
 
 ti::TimeTable::TimeTable(){
@@ -34,12 +25,12 @@ std::string ti::TimeTable::FormatTimeToHHMM(std::time_t &intime, int GMT){
     
     auto minutes {tmp->tm_min};
     auto hours {(tmp->tm_hour+GMT)%24};
-                
-    std::string lead_zeros_min = (minutes > 9) ? "" : "0";
-    std::string lead_zeros_hours = (hours > 9) ? "" : "0";
+    
+    std::string lead_zeros_min {ti::TimeTable::LeadingZeros(minutes)};
+    std::string lead_zeros_hours {ti::TimeTable::LeadingZeros(hours)};
     
     return lead_zeros_hours
-        .append(std::to_string((tmp->tm_hour+GMT)%24))
+        .append(std::to_string(hours))
         .append(":")
         .append(lead_zeros_min)
         .append(std::to_string(minutes));
@@ -50,8 +41,8 @@ std::string ti::TimeTable::FormatSecondsToHHMM(std::time_t &intime){
     auto minutes {remainder / 60};
     auto hours {(intime - remainder) / 3600};
 
-    std::string lead_zeros_min = (minutes > 9) ? "" : "0";
-    std::string lead_zeros_hours = (hours > 9) ? "" : "0";
+    std::string lead_zeros_min {ti::TimeTable::LeadingZeros(minutes)};
+    std::string lead_zeros_hours {ti::TimeTable::LeadingZeros(hours)};
     
     return (
         lead_zeros_hours.append(
