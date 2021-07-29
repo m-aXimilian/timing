@@ -6,7 +6,7 @@ project(timing)
 # cpp standard
 set(CXX_STANDARD 17)
 set(CXX_STANDARD_REQUIRED true)
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++17 -lpthread -ldl -lm")
+set(CMAKE_CXX_FLAGS "-Wall -Wextra -std=c++17 -lpthread -ldl -lm -pthread")
 
 add_subdirectory(${PROJECT_SOURCE_DIR}/sqlite3)
 add_subdirectory(${PROJECT_SOURCE_DIR}/toml)
@@ -36,7 +36,15 @@ target_include_directories(${PROJECT_NAME}  PUBLIC ${PROJECT_SOURCE_DIR}
                                             PUBLIC ${PROJECT_SOURCE_DIR}/toml
                                             PUBLIC ${PROJECT_SOURCE_DIR}/toml/include)
 
-target_link_libraries(${PROJECT_NAME}   LINK_PUBLIC sqlite3
-                                        LINK_PUBLIC cpptoml)
+IF (WIN32 OR APPLE)                                            
+    target_link_libraries(${PROJECT_NAME}   LINK_PUBLIC sqlite3
+                                            LINK_PUBLIC cpptoml)
+ENDIF (WIN32 OR APPLE)
 
+# issue on Ubuntu 21.04: dl-libs not found automatically
+IF (UNIX)                                            
+    target_link_libraries(${PROJECT_NAME}   LINK_PUBLIC sqlite3
+                                            LINK_PUBLIC cpptoml
+                                            ${CMAKE_DL_LIBS})
+ENDIF (UNIX)
 
