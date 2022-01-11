@@ -1,4 +1,4 @@
-Basic CLI time logging. Timestamps are written in a (unindexed) relatoinal database.
+Basic CLI time logging. Timestamps are written in a (un-indexed) relational database.
 The tool allows login and logout operations. Work time (=time logged in) and break time are derived automatically based on login and logout timestamps.
 
 * Usage
