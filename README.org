@@ -1,3 +1,31 @@
+Basic CLI time logging. Timestamps are written in a (unindexed) relatoinal database.
+The tool allows login and logout operations. Work time (=time logged in) and break time are derived automatically based on login and logout timestamps.
+
+* Usage
+** Building
+#+begin_src sh 
+git clone https://github.com/m-aXimilian/timing.git
+mkdir build && cd build
+cmake ..
+make
+#+end_src
+
+** Login
+#+begin_src sh 
+./timing login
+#+end_src
+
+** Logout
+#+begin_src sh 
+./timing logout
+#+end_src
+
+** Time logged in
+#+begin_src sh 
+./timing status
+#+end_src
+
+
 * Packages for the image
 - g++
 - sqlite3
