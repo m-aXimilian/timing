@@ -59,6 +59,11 @@ int init::Service::DispatchCommand(char *cmd[]){
         return 0;
     }
 
+    if (std::string(cmd[1]) == "status"){
+        std::cout<<time_log_->CurrentStatus()<<std::endl;
+        return 0;
+    }
+    
     time_log_->LogOut();
 
     return 0;
